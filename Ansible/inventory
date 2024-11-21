@@ -1,0 +1,28 @@
+all:
+  children:
+    service_group:
+      hosts:
+        service:
+          ansible_host: 192.168.20.100
+          ansible_user: admin_service
+      vars_files:
+        - vault.yml  # Zmienna Vault dla grupy service_group
+
+    office_group:
+      hosts:
+        office:
+          ansible_host: 192.168.30.100
+          ansible_user: admin_office
+      vars_files:
+        - vault.yml  # Zmienna Vault dla grupy office_group
+
+    dev_group:
+      hosts:
+        dev:
+          ansible_host: 192.168.40.101
+          ansible_user: admin_dev
+        dev_db:
+          ansible_host: 192.168.40.100
+          ansible_user: admin_dev_db
+      vars_files:
+        - vault.yml  # Zmienna Vault dla grupy dev_group

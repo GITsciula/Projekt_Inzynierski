@@ -1,2 +1,3 @@
 # Projekt_Inzynierski
-Repozytorium dla skryptów Ansible użytych w projekcie inżynierskim.
+---
+**Repozytorium dla skryptów Ansible użytych w projekcie inżynierskim.**
