@@ -5,16 +5,14 @@ all:
         service:
           ansible_host: 192.168.20.100
           ansible_user: admin_service
-      vars_files:
-        - vault.yml  # Zmienna Vault dla grupy service_group
 
     office_group:
       hosts:
         office:
           ansible_host: 192.168.30.100
           ansible_user: admin_office
-      vars_files:
-        - vault.yml  # Zmienna Vault dla grupy office_group
+          ansible_ssh_pass: "{{ office_pass }}"
+          ansible_become_pass: "{{ office_pass }}"
 
     dev_group:
       hosts:
@@ -24,5 +22,3 @@ all:
         dev_db:
           ansible_host: 192.168.40.100
           ansible_user: admin_dev_db
-      vars_files:
-        - vault.yml  # Zmienna Vault dla grupy dev_group

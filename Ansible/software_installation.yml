@@ -1,6 +1,9 @@
+---
 - name: Install necessary applications and packages on the office workstation.
   hosts: office
   become: yes  # sudo
+  vars_files:
+    - vault.yml
   tasks:
     - name: Ensure system is up to date.
       ansible.builtin.apt:
@@ -16,12 +19,11 @@
           - wget
         state: present
     # Install applications available in Debian repositories
-    - name: Install LibreOffice, Thunderbird, Firefox, and a PDF viewer
+    - name: Install LibreOffice, Thunderbird and a PDF viewer
       ansible.builtin.apt:
         name:
           - libreoffice          
-          - thunderbird          
-          - firefox-esr          
+          - thunderbird                  
           - evince               # PDF viewer (alternative: Okular)
         state: present
      # Install Snap (required for non-repository applications)
@@ -37,15 +39,20 @@
      # Install Microsoft Teams using Snap
     - name: Install Microsoft Teams
       community.general.snap:
-        name: teams
+        name: teams-for-linux
         state: present
      # Install Zoom using Snap
     - name: Install Zoom
       community.general.snap:
         name: zoom-client
         state: present
-       # Install Wekan (Trello alternative)
+    # Install Wekan (Trello alternative)
     - name: Install Wekan (Trello alternative)
       community.general.snap:
         name: wekan
+        state: present
+    # Install Firefox
+    - name: Install Firefox
+      community.general.snap:
+        name: firefox
         state: present
