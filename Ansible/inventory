@@ -19,6 +19,10 @@ all:
         dev:
           ansible_host: 192.168.40.101
           ansible_user: admin_dev
+          ansible_ssh_pass: "{{ dev_pass }}"
+          ansible_become_pass: "{{ dev_pass }}"
         dev_db:
-          ansible_host: 192.168.40.100
-          ansible_user: admin_dev_db
+          ansible_host: 192.168.40.100 
+          ansible_user: admin_dev
+          ansible_ssh_pass: "{{ dev_db_pass }}"
+          ansible_become_pass: "{{ dev_db_pass }}"
