@@ -1,0 +1,33 @@
+---
+
+- name: Ensure Python PostgreSQL library (psycopg2) is installed
+  apt:
+    name: python3-psycopg2
+    state: present
+  become: true
+
+- name: Download Zabbix repository package
+  get_url:
+    url: "https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.0-1+ubuntu22.04_all.deb"
+    dest: "/tmp/zabbix-release.deb"
+
+- name: Install Zabbix repository package
+  apt:
+    deb: "/tmp/zabbix-release.deb"
+
+- name: Update apt repository
+  apt:
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    name:
+      - zabbix-server-pgsql
+      - zabbix-frontend-php
+      - php8.1-pgsql
+      - zabbix-apache-conf
+      - zabbix-sql-scripts
+      - zabbix-agent
+      - postgresql
+      - apache2
+    state: present
