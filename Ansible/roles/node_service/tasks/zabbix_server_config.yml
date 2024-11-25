@@ -1,0 +1,104 @@
+---
+
+- name: Restart PostgreSQL service
+  systemd:
+    name: postgresql
+    state: restarted
+    enabled: yes
+  become: true
+
+- name: Ensure PostgreSQL service is started and enabled
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Check if Zabbix user exists
+  ansible.builtin.shell: |
+    sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='{{ db_user }}';"
+  register: zabbix_user_check
+  changed_when: false
+
+- name: Create Zabbix database user with password
+  ansible.builtin.shell: |
+    sudo -u postgres psql -c "CREATE USER {{ db_user }} WITH PASSWORD '{{ db_password }}';"
+  when: zabbix_user_check.stdout.strip() == ""
+  register: zabbix_user_created
+
+- name: Check if Zabbix database exists
+  ansible.builtin.shell: |
+    sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ db_name }}';"
+  register: zabbix_db_check
+  changed_when: false
+
+- name: Create Zabbix database owned by the user
+  ansible.builtin.shell: |
+    sudo -u postgres psql -c "CREATE DATABASE {{ db_name }} OWNER {{ db_user }};"
+  when: zabbix_db_check.stdout.strip() == ""
+  register: zabbix_db_created
+
+
+
+- name: Import Zabbix schema into database
+  become: true
+  ansible.builtin.shell: |
+    zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix
+  args:
+    creates: /var/lib/postgresql/zabbix_schema_imported.flag
+  register: zabbix_schema_import
+  changed_when: "'ERROR' not in zabbix_schema_import.stdout and 'ERROR' not in zabbix_schema_import.stderr"
+
+- name: Mark schema import as completed
+  file:
+    path: "/var/lib/postgresql/{{ db_name }}_schema_imported.flag"
+    state: touch
+  when: zabbix_schema_import.changed
+
+- name: Configure Zabbix server
+  lineinfile:
+    path: "/etc/zabbix/zabbix_server.conf"
+    regexp: "^DBPassword="
+    line: "DBPassword={{ db_password }}"
+
+
+- name: Configure Zabbix frontend
+  template:
+    src: zabbix.conf.php.j2
+    dest: "/etc/zabbix/web/zabbix.conf.php"
+  
+- name: Restart Zabbix Server
+  ansible.builtin.service:
+    name: zabbix-server
+    state: restarted
+
+- name: Restart Apache2 service
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+
+- name: Enable zabbix-server, zabbix-agent, and apache2 services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - zabbix-server
+    - zabbix-agent
+    - apache2
+
+
+- name: Ensure Zabbix server and agent services are enabled and started
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - zabbix-server
+    - zabbix-agent
+  
+- name: Ensure Apache service is enabled and started
+  systemd:
+    name: apache2
+    state: started
+    enabled: yes
+
+

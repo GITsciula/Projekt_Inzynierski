@@ -1,0 +1,9 @@
+---
+
+- name: Configure Zabbix packages
+  ansible.builtin.include_tasks: zabbix_packages_config.yml
+  when: zabbix_install
+
+- name: Configure Zabbix Server service
+  ansible.builtin.include_tasks: zabbix_server_config.yml
+  when: zabbix_install

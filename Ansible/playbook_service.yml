@@ -1,0 +1,5 @@
+- name: Configure Service Virtual Machine
+  hosts: service
+  become: yes
+  roles:
+    - node_service
