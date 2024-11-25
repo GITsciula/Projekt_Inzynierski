@@ -1,175 +1,323 @@
 ---
-- name: Install necessary applications and packages on the office workstations.
-  hosts: office_group
-  become: yes  # sudo
-  vars_files:
-    - vault.yml
-  tasks:
-    - name: Ensure system is up to date.
-      ansible.builtin.apt:
-        update_cache: yes
+# - name: Install necessary applications and packages on the office workstations.
+#   hosts: office_group
+#   become: yes  # sudo
+#   vars_files:
+#     - vault.yml
+#   tasks:
+#     - name: Ensure system is up to date.
+#       ansible.builtin.apt:
+#         update_cache: yes
 
-    - name: Ensure necessary packages are installed.
-      ansible.builtin.apt:
-        name:
-          - git
-          - vim
-          - htop
-          - curl
-          - wget
-        state: present
-    # Install applications available in Debian repositories
-    - name: Install LibreOffice, Thunderbird and a PDF viewer
-      ansible.builtin.apt:
-        name:
-          - libreoffice          
-          - thunderbird                  
-          - evince               # PDF viewer (alternative: Okular)
-        state: present
-     # Install Snap (required for non-repository applications)
-    - name: Install Snap package manager
-      ansible.builtin.apt:
-        name: snapd
-        state: present
-    - name: Enable and start Snap service
-      ansible.builtin.service:
-        name: snapd
-        state: started
-        enabled: yes
-     # Install Microsoft Teams using Snap
-    - name: Install Microsoft Teams
-      community.general.snap:
-        name: teams-for-linux
-        state: present
-     # Install Zoom using Snap
-    - name: Install Zoom
-      community.general.snap:
-        name: zoom-client
-        state: present
-    # Install Wekan (Trello alternative)
-    - name: Install Wekan (Trello alternative)
-      community.general.snap:
-        name: wekan
-        state: present
-    # Install Firefox
-    - name: Install Firefox
-      community.general.snap:
-        name: firefox
-        state: present
-- name: Install necessary packages on the developer and database workstations.
-  hosts: dev_group
-  become: yes
-  vars_files:
-    - vault.yml
-  tasks:
-    - name: Ensure system is up to date.
-      ansible.builtin.apt:
-        update_cache: yes
-    - name: Ensure necessary packages are installed.
-      ansible.builtin.apt:
-        name:
-          - git
-          - vim
-          - htop
-          - curl
-          - wget
-        state: present
-- name: Install necessary applications and packages on the developer workstations.
-  hosts: dev
-  become: yes
-  vars_files:
-    - vault.yml
-  tasks:
-    # Install GCC (C/C++ compiler)
-    - name: Install GCC and build essentials
-      ansible.builtin.apt:
-        name:
-          - gcc
-          - g++
-          - make
-        state: present
+#     - name: Ensure necessary packages are installed.
+#       ansible.builtin.apt:
+#         name:
+#           - git
+#           - vim
+#           - htop
+#           - curl
+#           - wget
+#         state: present
+#     # Install applications available in Debian repositories
+#     - name: Install LibreOffice, Thunderbird and a PDF viewer
+#       ansible.builtin.apt:
+#         name:
+#           - libreoffice          
+#           - thunderbird                  
+#           - evince               # PDF viewer (alternative: Okular)
+#         state: present
+#      # Install Snap (required for non-repository applications)
+#     - name: Install Snap package manager
+#       ansible.builtin.apt:
+#         name: snapd
+#         state: present
+#     - name: Enable and start Snap service
+#       ansible.builtin.service:
+#         name: snapd
+#         state: started
+#         enabled: yes
+#      # Install Microsoft Teams using Snap
+#     - name: Install Microsoft Teams
+#       community.general.snap:
+#         name: teams-for-linux
+#         state: present
+#      # Install Zoom using Snap
+#     - name: Install Zoom
+#       community.general.snap:
+#         name: zoom-client
+#         state: present
+#     # Install Wekan (Trello alternative)
+#     - name: Install Wekan (Trello alternative)
+#       community.general.snap:
+#         name: wekan
+#         state: present
+#     # Install Firefox
+#     - name: Install Firefox
+#       community.general.snap:
+#         name: firefox
+#         state: present
+# - name: Install necessary packages on the developer and database workstations.
+#   hosts: dev_group
+#   become: yes
+#   vars_files:
+#     - vault.yml
+#   tasks:
+#     - name: Ensure system is up to date.
+#       ansible.builtin.apt:
+#         update_cache: yes
+#     - name: Ensure necessary packages are installed.
+#       ansible.builtin.apt:
+#         name:
+#           - git
+#           - vim
+#           - htop
+#           - curl
+#           - wget
+#         state: present
+# - name: Install necessary applications and packages on the developer workstations.
+#   hosts: dev
+#   become: yes
+#   vars_files:
+#     - vault.yml
+#   tasks:
+#     # Install GCC (C/C++ compiler)
+#     - name: Install GCC and build essentials
+#       ansible.builtin.apt:
+#         name:
+#           - gcc
+#           - g++
+#           - make
+#         state: present
     
-    # Remove Snap restriction in Mint
-    - name: Remove Snap restriction in Mint
-      ansible.builtin.file:
-        path: /etc/apt/preferences.d/nosnap.pref
-        state: absent
+#     # Remove Snap restriction in Mint
+#     - name: Remove Snap restriction in Mint
+#       ansible.builtin.file:
+#         path: /etc/apt/preferences.d/nosnap.pref
+#         state: absent
 
-    # Install Snap (required for non-repository applications)
-    - name: Install Snap package manager
-      ansible.builtin.apt:
-        name: snapd
-        state: present
-    - name: Enable and start Snap service
-      ansible.builtin.service:
-        name: snapd
-        state: started
-        enabled: yes
+#     # Install Snap (required for non-repository applications)
+#     - name: Install Snap package manager
+#       ansible.builtin.apt:
+#         name: snapd
+#         state: present
+#     - name: Enable and start Snap service
+#       ansible.builtin.service:
+#         name: snapd
+#         state: started
+#         enabled: yes
 
-    # Install DBeaver (Database Manager)
-    - name: Install DBeaver
-      community.general.snap:
-        name: dbeaver-ce
-        state: present
+#     # Install DBeaver (Database Manager)
+#     - name: Install DBeaver
+#       community.general.snap:
+#         name: dbeaver-ce
+#         state: present
 
-    # Install PyCharm (using Snap)
-    - name: Install PyCharm
-      community.general.snap:
-        name: pycharm-community
-        state: present
-        classic: true
+#     # Install PyCharm (using Snap)
+#     - name: Install PyCharm
+#       community.general.snap:
+#         name: pycharm-community
+#         state: present
+#         classic: true
 
-    # Install VS Code
-    - name: Add Microsoft GPG key for VS Code
-      ansible.builtin.apt_key:
-        url: https://packages.microsoft.com/keys/microsoft.asc
-        state: present
+#     # Install VS Code
+#     - name: Add Microsoft GPG key for VS Code
+#       ansible.builtin.apt_key:
+#         url: https://packages.microsoft.com/keys/microsoft.asc
+#         state: present
 
-    - name: Add VS Code repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-        state: present
+#     - name: Add VS Code repository
+#       ansible.builtin.apt_repository:
+#         repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+#         state: present
 
-    - name: Install VS Code
-      ansible.builtin.apt:
-        name: code
-        state: present
+#     - name: Install VS Code
+#       ansible.builtin.apt:
+#         name: code
+#         state: present
 
-    # Add repository for the latest Java (Adoptium Temurin)
-    - name: Add Adoptium GPG key
-      ansible.builtin.apt_key:
-        url: https://packages.adoptium.net/artifactory/api/gpg/key/public
-        state: present
+#     # Add repository for the latest Java (Adoptium Temurin)
+#     - name: Add Adoptium GPG key
+#       ansible.builtin.apt_key:
+#         url: https://packages.adoptium.net/artifactory/api/gpg/key/public
+#         state: present
 
-    - name: Add Adoptium repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://packages.adoptium.net/artifactory/deb jammy main"
-        state: present
+#     - name: Add Adoptium repository
+#       ansible.builtin.apt_repository:
+#         repo: "deb [arch=amd64] https://packages.adoptium.net/artifactory/deb jammy main"
+#         state: present
 
-    # Install the latest OpenJDK (Java, includes javac)
-    - name: Install the latest OpenJDK (Java with javac)
-      ansible.builtin.apt:
-        name: temurin-20-jdk  
-        state: present
+#     # Install the latest OpenJDK (Java, includes javac)
+#     - name: Install the latest OpenJDK (Java with javac)
+#       ansible.builtin.apt:
+#         name: temurin-20-jdk  
+#         state: present
 
-    # Verify installation of javac (optional check)
-    - name: Check if javac is installed
-      ansible.builtin.command:
-        cmd: javac -version
-      register: javac_version
-      failed_when: javac_version.rc != 0
+#     # Verify installation of javac (optional check)
+#     - name: Check if javac is installed
+#       ansible.builtin.command:
+#         cmd: javac -version
+#       register: javac_version
+#       failed_when: javac_version.rc != 0
 
+#     # Install PostgreSQL
+#     - name: Install PostgreSQL
+#       ansible.builtin.apt:
+#         name:
+#           - postgresql
+#           - postgresql-contrib
+#         state: present
+    
+#     # Install IntelliJ IDEA Community Edition
+#     - name: Install IntelliJ IDEA Community Edition
+#       community.general.snap:
+#         name: intellij-idea-community
+#         state: present
+#         classic: true
+    
+#     # Install VirtualBox
+#     - name: Add Oracle public key
+#       apt_key:
+#         url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+#         state: present
+    
+#     - name: Add VirtualBox repository for Linux Mint
+#       apt_repository:
+#         repo: "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian jammy contrib"
+#         state: present
+#         update_cache: yes
+    
+#     - name: Create kinetic.list file if it does not exist
+#       file:
+#         path: /etc/apt/sources.list.d/kinetic.list
+#         state: touch
+
+#     - name: Add Ubuntu Kinetic repository for missing dependencies
+#       lineinfile:
+#         path: /etc/apt/sources.list.d/kinetic.list
+#         line: "deb [trusted=yes] http://old-releases.ubuntu.com/ubuntu kinetic main universe"
+#         state: present
+    
+#     - name: Update apt cache after adding kinetic repository
+#       apt:
+#         update_cache: yes
+      
+#     - name: Install missing dependencies
+#       apt:
+#         name:
+#           - libvpx7
+#           - libsdl-ttf2.0-0
+#         state: present
+
+#     - name: Install VirtualBox
+#       apt:
+#         name: virtualbox-7.0
+#         state: present
+
+#     - name: Install Linux headers (required for VB kernel modules)
+#       apt:
+#         name: "{{ ansible_kernel_headers }}"
+#         state: present
+#   vars:
+#     ansible_kernel_headers: "linux-headers-{{ ansible_facts['kernel'] }}"
+
+- name: Install necessary applications and create database on the developer database workstation.
+  hosts: dev_db
+  become: yes
+  vars:
+    db_user: admin_dev
+    db_name: dev_database
+  vars_files:
+    - vault.yml
+  tasks:
     # Install PostgreSQL
     - name: Install PostgreSQL
-      ansible.builtin.apt:
+      apt:
         name:
           - postgresql
-          - postgresql-contrib
+          - postgresql-client
+          - python3-psycopg2
         state: present
+        update_cache: yes
     
-    # Install IntelliJ IDEA Community Edition
-    - name: Install IntelliJ IDEA Community Edition
-      community.general.snap:
-        name: intellij-idea-community
-        state: present
-        classic: true
+    # Ensure PostgreSQL is up
+    - name: Ensure PostgreSQL service is running
+      service:
+        name: postgresql
+        state: started
+        enabled: true
+
+    # Check if PostgreSQL user exists
+    - name: Check if PostgreSQL user exists
+      ansible.builtin.shell: |
+        sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='{{ db_user }}';"
+      register: user_check
+      changed_when: false
+
+    # Creating PostgreSQL user
+    - name: Create PostgreSQL user
+      ansible.builtin.shell: |
+        sudo -u postgres psql -c "CREATE USER {{ db_user }} WITH PASSWORD '{{ postgresql_user_pass }}';"
+      when: user_check.stdout.strip()==""
+      register: user_created
+
+    - name: Check if PostgreSQL database exists
+      ansible.builtin.shell: |
+        sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='{{ db_name }}';"
+      register: db_check
+      changed_when: false 
+
+    # Creating Database
+    - name: Create PostgreSQL database
+      ansible.builtin.shell: |
+        sudo -u postgres psql -c "CREATE DATABASE {{ db_name }} OWNER {{ db_user }};"
+      when: db_check.stdout.strip() == ""
+      register: db_created
+    
+    - name: Check if dev_table exists in the database
+      ansible.builtin.shell: |
+        sudo -u postgres psql -d {{ db_name }} -tAc "SELECT 1 FROM information_schema.tables WHERE table_name='dev_table';"
+      register: table_check
+      changed_when: false 
+
+    # Creating table in database
+    - name: Create a table in the database if it does not exist
+      ansible.builtin.shell: |
+        sudo -u postgres psql -d {{ db_name }} -c "
+        CREATE TABLE IF NOT EXISTS dev_table (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        "
+      when: table_check.stdout.strip() == ""
+      register: table_created
+
+    - name: Check if sample data already exists in dev_table
+      ansible.builtin.shell: |
+        sudo -u postgres psql -d {{ db_name }} -tAc "SELECT 1 FROM dev_table WHERE name='example_data';"
+      register: data_check
+      changed_when: false
+
+    # Insert data into the table
+    - name: Insert sample data into dev_table if not already inserted
+      ansible.builtin.shell: |
+        sudo -u postgres psql -d {{ db_name }} -c "
+        INSERT INTO dev_table (name) VALUES ('example_data');
+        "
+      when: data_check.stdout.strip() == ""
+
+    - name: Check if user has ALL privileges on the database
+      ansible.builtin.shell: |
+        sudo -u postgres psql -d {{ db_name }} -tAc "
+        SELECT has_database_privilege('{{ db_user }}', '{{ db_name }}', 'CREATE')
+               AND has_database_privilege('{{ db_user }}', '{{ db_name }}', 'CONNECT');
+        "
+      register: priv_check
+      changed_when: false
+
+    - name: Grant ALL privileges to user on the database
+      ansible.builtin.shell: |
+        sudo -u postgres psql -d {{ db_name }} -c "
+        GRANT ALL PRIVILEGES ON DATABASE {{ db_name }} TO {{ db_user }};
+        "
+      when: priv_check.stdout.strip() == ""
