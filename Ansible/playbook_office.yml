@@ -1,0 +1,7 @@
+- name: Install necessary applications and packages on the office workstations.
+  hosts: office_group
+  become: yes
+  vars_files:
+    - vault.yml
+  roles:
+    - node_office

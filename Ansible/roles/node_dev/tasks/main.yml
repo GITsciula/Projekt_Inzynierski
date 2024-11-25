@@ -1,0 +1,17 @@
+---
+
+- name: Install software using Snap
+  ansible.builtin.include_tasks: dev_snap_software.yml
+  when: install_dev_software
+
+- name: Install software using apt
+  ansible.builtin.include_tasks: dev_apt_software.yml
+  when: install_dev_software
+
+- name: Install Java
+  ansible.builtin.include_tasks: dev_java_config.yml
+  when: install_dev_software
+
+- name: Install VirtualBox
+  ansible.builtin.include_tasks: dev_vmbox_config.yml
+  when: install_dev_software

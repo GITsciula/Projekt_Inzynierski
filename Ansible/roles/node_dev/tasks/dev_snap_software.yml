@@ -1,0 +1,32 @@
+- name: Remove Snap restriction in Mint
+  ansible.builtin.file:
+    path: /etc/apt/preferences.d/nosnap.pref
+    state: absent
+
+- name: Install Snap package manager
+  ansible.builtin.apt:
+    name: snapd
+    state: present
+
+- name: Enable and start Snap service
+  ansible.builtin.service:
+    name: snapd
+    state: started
+    enabled: yes
+
+- name: Install DBeaver
+  community.general.snap:
+    name: dbeaver-ce
+    state: present
+
+- name: Install PyCharm
+  community.general.snap:
+    name: pycharm-community
+    state: present
+    classic: true
+
+- name: Install IntelliJ IDEA Community Edition
+  community.general.snap:
+    name: intellij-idea-community
+    state: present
+    classic: true

@@ -1,0 +1,5 @@
+install_dev_db_software: true 
+create_database: true 
+
+db_user: admin_dev
+db_name: dev_database

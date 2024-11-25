@@ -1,0 +1,20 @@
+- name: Add Adoptium GPG key
+  ansible.builtin.apt_key:
+    url: https://packages.adoptium.net/artifactory/api/gpg/key/public
+    state: present
+
+- name: Add Adoptium repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://packages.adoptium.net/artifactory/deb jammy main"
+    state: present
+
+- name: Install the latest OpenJDK (Java with javac)
+  ansible.builtin.apt:
+    name: temurin-20-jdk  
+    state: present
+
+- name: Check if javac is installed
+  ansible.builtin.command:
+    cmd: javac -version
+  register: javac_version
+  failed_when: javac_version.rc != 0

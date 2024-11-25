@@ -1,0 +1,7 @@
+- name: Install necessary applications and packages on the developer workstations.
+  hosts: dev
+  become: yes
+  vars_files:
+    - vault.yml
+  roles:
+    - node_dev

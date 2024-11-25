@@ -1,0 +1,38 @@
+- name: Install LibreOffice, Thunderbird and a PDF viewer
+  ansible.builtin.apt:
+    name:
+      - libreoffice          
+      - thunderbird                  
+      - evince               # PDF viewer 
+    state: present
+
+- name: Install Snap package manager
+  ansible.builtin.apt:
+    name: snapd
+    state: present
+    
+- name: Enable and start Snap service
+  ansible.builtin.service:
+    name: snapd
+    state: started
+    enabled: yes
+    
+- name: Install Microsoft Teams
+  community.general.snap:
+    name: teams-for-linux
+    state: present
+
+- name: Install Zoom
+  community.general.snap:
+    name: zoom-client
+    state: present
+
+- name: Install Wekan (Trello alternative)
+  community.general.snap:
+    name: wekan
+    state: present
+
+- name: Install Firefox
+  community.general.snap:
+    name: firefox
+    state: present

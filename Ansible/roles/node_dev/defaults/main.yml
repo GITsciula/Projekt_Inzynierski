@@ -1,0 +1,3 @@
+install_dev_software: true
+
+ansible_kernel_headers: "linux-headers-{{ ansible_facts['kernel'] }}"

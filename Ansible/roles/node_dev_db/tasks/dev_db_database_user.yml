@@ -1,0 +1,27 @@
+- name: Check if PostgreSQL user exists
+  ansible.builtin.shell: |
+    sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='{{ db_user }}';"
+  register: user_check
+  changed_when: false
+
+- name: Create PostgreSQL user
+  ansible.builtin.shell: |
+    sudo -u postgres psql -c "CREATE USER {{ db_user }} WITH PASSWORD '{{ postgresql_user_pass }}';"
+  when: user_check.stdout.strip()==""
+  register: user_created
+
+- name: Check if user has ALL privileges on the database
+  ansible.builtin.shell: |
+    sudo -u postgres psql -d {{ db_name }} -tAc "
+    SELECT has_database_privilege('{{ db_user }}', '{{ db_name }}', 'CREATE')
+        AND has_database_privilege('{{ db_user }}', '{{ db_name }}', 'CONNECT');
+    "
+  register: priv_check
+  changed_when: false
+
+- name: Grant ALL privileges to user on the database
+  ansible.builtin.shell: |
+    sudo -u postgres psql -d {{ db_name }} -c "
+    GRANT ALL PRIVILEGES ON DATABASE {{ db_name }} TO {{ db_user }};
+    "
+  when: priv_check.stdout.strip() == ""

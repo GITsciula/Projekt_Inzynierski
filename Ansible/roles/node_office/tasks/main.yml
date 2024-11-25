@@ -1,0 +1,9 @@
+---
+
+- name: Install packages on Office Workstation
+  ansible.builtin.include_tasks: office_packages_config.yml
+  when: install_office_software
+
+- name: Install applications on Office Workstation
+  ansible.builtin.include_tasks: office_software_config.yml
+  when: install_office_software

@@ -1,0 +1,21 @@
+---
+
+- name: Install PostgreSQL
+  ansible.builtin.include_tasks: dev_db_postgresql.yml
+  when: install_dev_db_software
+
+- name: Create database user
+  ansible.builtin.include_tasks: dev_db_database_user.yml
+  when: create_database
+
+- name: Create database
+  ansible.builtin.include_tasks: dev_db_database_config.yml
+  when: create_database
+
+- name: Create table
+  ansible.builtin.include_tasks: dev_db_table_create.yml
+  when: create_database
+
+- name: Insert sample data into table
+  ansible.builtin.include_tasks: dev_db_data_insert.yml
+  when: create_database

@@ -1,0 +1,15 @@
+---
+
+- name: Ensure system is up to date.
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Ensure necessary packages are installed.
+  ansible.builtin.apt:
+    name:
+      - git
+      - vim
+      - htop
+      - curl
+      - wget
+    state: present

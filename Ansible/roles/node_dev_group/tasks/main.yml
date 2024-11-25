@@ -1,0 +1,4 @@
+---
+- name: Install packages and ensure system is up to date on Dev group workstations.
+  ansible.builtin.include_tasks: dev_group_config.yml
+  when: install_dev_group_packages

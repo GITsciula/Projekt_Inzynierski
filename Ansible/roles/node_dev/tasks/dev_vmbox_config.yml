@@ -1,0 +1,42 @@
+- name: Add Oracle public key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+    
+- name: Add VirtualBox repository for Linux Mint
+  apt_repository:
+    repo: "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian jammy contrib"
+    state: present
+    update_cache: yes
+    
+- name: Create kinetic.list file if it does not exist
+  file:
+    path: /etc/apt/sources.list.d/kinetic.list
+    state: touch
+
+- name: Add Ubuntu Kinetic repository for missing dependencies
+  lineinfile:
+    path: /etc/apt/sources.list.d/kinetic.list
+    line: "deb [trusted=yes] http://old-releases.ubuntu.com/ubuntu kinetic main universe"
+    state: present
+    
+- name: Update apt cache after adding kinetic repository
+  apt:
+    update_cache: yes
+      
+- name: Install missing dependencies
+  apt:
+    name:
+      - libvpx7
+      - libsdl-ttf2.0-0
+    state: present
+
+- name: Install VirtualBox
+  apt:
+    name: virtualbox-7.0
+    state: present
+
+- name: Install Linux headers (required for VB kernel modules)
+  apt:
+    name: "{{ ansible_kernel_headers }}"
+    state: present

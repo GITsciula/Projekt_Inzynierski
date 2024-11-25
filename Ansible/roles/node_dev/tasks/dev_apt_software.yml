@@ -1,0 +1,29 @@
+- name: Install GCC and build essentials
+  ansible.builtin.apt:
+    name:
+      - gcc
+      - g++
+      - make
+    state: present
+
+- name: Add Microsoft GPG key for VS Code
+  ansible.builtin.apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add VS Code repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    state: present
+
+- name: Install VS Code
+  ansible.builtin.apt:
+    name: code
+    state: present
+
+- name: Install PostgreSQL
+  ansible.builtin.apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+    state: present

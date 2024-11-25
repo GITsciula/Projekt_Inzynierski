@@ -1,0 +1,7 @@
+- name: Install necessary packages on the developer and database workstations.
+  hosts: dev_group
+  become: yes
+  vars_files:
+    - vault.yml
+  roles:
+    - node_dev_group

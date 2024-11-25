@@ -1,0 +1,12 @@
+- name: Check if sample data already exists in dev_table
+  ansible.builtin.shell: |
+    sudo -u postgres psql -d {{ db_name }} -tAc "SELECT 1 FROM dev_table WHERE name='example_data';"
+  register: data_check
+  changed_when: false
+
+- name: Insert sample data into dev_table if not already inserted
+  ansible.builtin.shell: |
+    sudo -u postgres psql -d {{ db_name }} -c "
+    INSERT INTO dev_table (name) VALUES ('example_data');
+    "
+  when: data_check.stdout.strip() == ""
