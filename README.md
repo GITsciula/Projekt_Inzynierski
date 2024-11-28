@@ -8,16 +8,16 @@ Projekt realizuje automatyzację zadań związanych z konfiguracją serwerów pr
 
 ## Struktura projektu
 
-Ansible/
-├── roles/                      # Role Ansible (każdy node ma osobną rolę)
-│   ├── node/                   # Rola odpowiadająca danemu nodowi
-│   │   ├── defaults/           # Domyślne zmienne dla roli
-│   │   ├── tasks/              # Główne zadania wykonywane w ramach roli
-│   │   └── ...                 # (inne katalogi roli, jeśli wymagane)
-├── inventory                   # Plik zawierający listę hostów i grup
-├── vault.yml                   # Plik z zaszyfrowanymi informacjami (Ansible Vault)
-├── playbook_<nazwa>.yml        # Główne playbooki uruchamiające role/nody
-└── ...
+- **Ansible/**
+  - **roles/** - Role Ansible (każdy node ma osobną rolę)
+    - **node/** - Rola odpowiadająca danemu nodowi
+      - **defaults/** - Domyślne zmienne dla roli
+      - **tasks/** - Główne zadania wykonywane w ramach roli
+      - _..._ - (inne katalogi roli, jeśli wymagane)
+  - **inventory** - Plik zawierający listę hostów i grup
+  - **vault.yml** - Plik z zaszyfrowanymi informacjami (Ansible Vault)
+  - **playbook_<nazwa>.yml** - Główne playbooki uruchamiające role/nody
+  - _..._ - Pozostałe pliki i katalogi
 
 ---
 
