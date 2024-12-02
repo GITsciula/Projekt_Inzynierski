@@ -1,0 +1,80 @@
+- name: Change Wallpaper
+  xfconf:
+    channel: xfce4-desktop
+    property: /backdrop/screen0/monitorVirtual-1/workspace0/last-image
+    value: "/usr/share/xfce4/backdrops/ktee_linuxmint.png"
+    value_type: string
+  environment:
+    DISPLAY: ":0.0"          
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Change wallpaper style (scaling options)
+  xfconf:
+    channel: xfce4-desktop
+    property: /backdrop/screen0/monitorVirtual-1/workspace0/image-style
+    value: 3
+    value_type: int
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Change background color (for solid color style)
+  xfconf:
+    channel: xfce4-desktop
+    property: /backdrop/screen0/monitorVirtual-1/workspace0/color1
+    value: "#FFCCDD"
+    value_type: string
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Enable desktop icons
+  xfconf:
+    channel: xfce4-desktop
+    property: /desktop-icons/file-icons/show-home 
+    value: true
+    value_type: bool
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Enable Trash icon
+  xfconf:
+    channel: xfce4-desktop
+    property: /desktop-icons/file-icons/show-trash
+    value: true
+    value_type: bool
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Enable Removable Devices icon
+  xfconf:
+    channel: xfce4-desktop
+    property: /desktop-icons/file-icons/show-removable
+    value: true
+    value_type: bool
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Enable Filesystem icon
+  xfconf:
+    channel: xfce4-desktop
+    property: /desktop-icons/file-icons/show-filesystem
+    value: true
+    value_type: bool
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+
+- name: Set the size of desktop icons
+  xfconf:
+    channel: xfce4-desktop
+    property: /desktop-icons/font-size
+    value: 12
+    value_type: int
+  environment:
+    DISPLAY: ":0.0"
+    XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
+

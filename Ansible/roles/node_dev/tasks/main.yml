@@ -15,3 +15,11 @@
 - name: Install VirtualBox
   ansible.builtin.include_tasks: dev_vmbox_config.yml
   when: install_dev_software
+
+- name: Config Desktop
+  ansible.builtin.include_tasks: dev_desktop_config.yml
+  when: desktop_config
+
+# - name: Create Desktop shortcuts
+#   ansible.builtin.include_tasks: dev_desktop_shortcuts.yml
+#   when:

@@ -1,3 +1,4 @@
-install_dev_software: true
+install_dev_software: false
+desktop_config: true
 
 ansible_kernel_headers: "linux-headers-{{ ansible_facts['kernel'] }}"
