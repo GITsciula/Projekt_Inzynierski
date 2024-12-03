@@ -72,7 +72,7 @@
   xfconf:
     channel: xfce4-desktop
     property: /desktop-icons/font-size
-    value: 12
+    value: 10
     value_type: int
   environment:
     DISPLAY: ":0.0"

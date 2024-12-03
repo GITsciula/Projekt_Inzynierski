@@ -1,0 +1,27 @@
+- name: Create DeveloperTools directory on Desktop
+  file:
+    path: "{{ shortcuts_folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Create application shortcuts
+  copy:
+    dest: "{{ shortcuts_folder }}/{{ item.shortcut }}"
+    content: |
+      [Desktop Entry]
+      Version=1.0
+      Name={{ item.name }}
+      Comment={{ item.comment }}
+      Exec={{ item.exec }}
+      Icon={{ item.icon }}
+      Terminal=false
+      Type=Application
+      Categories=Utility;Development;
+    mode: '0755' 
+  with_items: "{{ applications }}"
+
+- name: Executable .desktop
+  file:
+    path: "{{ shortcuts_folder }}/{{ item.shortcut }}"
+    mode: '0755'
+  with_items: "{{ applications }}"

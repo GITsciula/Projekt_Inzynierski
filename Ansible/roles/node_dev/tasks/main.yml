@@ -20,6 +20,6 @@
   ansible.builtin.include_tasks: dev_desktop_config.yml
   when: desktop_config
 
-# - name: Create Desktop shortcuts
-#   ansible.builtin.include_tasks: dev_desktop_shortcuts.yml
-#   when:
+- name: Create Desktop shortcuts
+  ansible.builtin.include_tasks: dev_desktop_shortcuts.yml
+  when: desktop_config
