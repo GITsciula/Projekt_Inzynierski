@@ -10,21 +10,25 @@ applications:
     shortcut: "VirtualBox.desktop"
     exec: "virtualbox"
     icon: /usr/share/icons/hicolor/48x48/apps/virtualbox.png
+
   - name: "DBeaver"
     comment: "Universal Database Manager and SQL Client."
     shortcut: "DBeaver.desktop"
     exec: "snap run dbeaver-ce"
-    icon: dbeaver-ce
+    icon: /usr/share/icons/Mint-L/apps/48/beaver.png
+
   - name: "PyCharm"
     comment: "Python IDE."
     shortcut: "PyCharm.desktop"
     exec: "snap run pycharm-community"
     icon: /snap/pycharm-community/current/bin/pycharm.png
+
   - name: "IntelliJ IDEA"
     comment: "Java IDE."
     shortcut: "IntelliJ.desktop"
     exec: "snap run intellij-idea-community"
     icon: /snap/intellij-idea-community/current/bin/idea.png
+
   - name: "VS Code"
     comment: "Visual Studio Code."
     shortcut: "VSCode.desktop"

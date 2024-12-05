@@ -1,10 +1,12 @@
 - name: Create DeveloperTools directory on Desktop
+  become_user: "{{ ansible_user }}"
   file:
     path: "{{ shortcuts_folder }}"
     state: directory
-    mode: '0755'
+    mode: 0755
 
 - name: Create application shortcuts
+  become_user: "{{ ansible_user }}"
   copy:
     dest: "{{ shortcuts_folder }}/{{ item.shortcut }}"
     content: |
@@ -17,11 +19,18 @@
       Terminal=false
       Type=Application
       Categories=Utility;Development;
-    mode: '0755' 
+    mode: 0755 
   with_items: "{{ applications }}"
 
 - name: Executable .desktop
+  become_user: "{{ ansible_user }}"
   file:
     path: "{{ shortcuts_folder }}/{{ item.shortcut }}"
-    mode: '0755'
+    mode: 0755
+  with_items: "{{ applications }}"
+
+- name: Set .desktop as trusted file
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.shell: |
+    gio set -t string {{ shortcuts_folder }}/{{ item.shortcut }} metadata::xfce-exe-checksum "$(sha256sum {{ shortcuts_folder }}/{{ item.shortcut }} | awk '{print $1}')"
   with_items: "{{ applications }}"
