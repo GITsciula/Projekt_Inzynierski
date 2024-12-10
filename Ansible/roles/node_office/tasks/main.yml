@@ -15,3 +15,7 @@
 - name: Desktop shortcuts configuration on Office Workstation
   ansible.builtin.include_tasks: office_desktop_shortcuts.yml
   when: office_desktop_config
+
+- name: Install and configure Zabbix Agent 2
+  ansible.builtin.include_tasks: zabbix_agent_config.yml
+  when: zabbix_agent_install

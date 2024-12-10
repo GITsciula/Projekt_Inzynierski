@@ -1,7 +1,7 @@
 install_dev_db_software: false 
 create_database: false 
 config_docker: true
-
+zabbix_agent_install: true
 db_user: admin_dev
 db_name: dev_database
 

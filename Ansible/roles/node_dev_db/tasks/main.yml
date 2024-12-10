@@ -31,3 +31,7 @@
 - name: Docker containers configuration
   ansible.builtin.include_tasks: dev_db_docker_container_config.yml
   when: config_docker
+
+- name: Install and configure Zabbix Agent 2
+  ansible.builtin.include_tasks: zabbix_agent_config.yml
+  when: zabbix_agent_install  

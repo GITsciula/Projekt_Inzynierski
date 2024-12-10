@@ -1,9 +1,9 @@
 
 zabbix_install: true
-
-zabbix_version: "7.0"  
+zabbix_hosts_add: true
+zabbix_version: "6.4"  
 db_name: "zabbix"
 db_user: "zabbix"
-db_password: "zaq1@WSX"
+db_password: {{zabbix_db_password}} 
 zabbix_server_conf: "/etc/zabbix/zabbix_server.conf"
 postgres_password: "zaq1@WSX"

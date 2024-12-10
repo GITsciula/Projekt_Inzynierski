@@ -1,5 +1,5 @@
 install_office_software: false
-
+zabbix_agent_install: true
 office_desktop_config: true
 
 shortcuts_folder: "/home/{{ ansible_user }}/Desktop"

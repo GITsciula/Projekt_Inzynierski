@@ -7,3 +7,7 @@
 - name: Configure Zabbix Server service
   ansible.builtin.include_tasks: zabbix_server_config.yml
   when: zabbix_install
+
+- name: Add Zabbix Hosts
+  ansible.builtin.include_tasks: zabbix_hosts_add.yml
+  when: zabbix_hosts_add

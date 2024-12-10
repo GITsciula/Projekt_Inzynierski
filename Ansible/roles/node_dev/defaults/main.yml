@@ -1,6 +1,6 @@
 install_dev_software: true
 desktop_config: true
-
+zabbix_agent_install: true
 ansible_kernel_headers: "linux-headers-{{ ansible_facts['kernel'] }}"
 
 shortcuts_folder: "/home/{{ ansible_user }}/Desktop/DeveloperTools"
