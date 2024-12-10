@@ -1,0 +1,28 @@
+- name: Install required packages for repositories
+  apt:
+    name:
+      - software-properties-common
+      - apt-transport-https
+      - gnupg
+    state: present
+
+- name: Add X2Go GPG key
+  ansible.builtin.shell: |
+    gpg --no-default-keyring \
+        --keyring /usr/share/keyrings/x2go.gpg \
+        --keyserver hkp://keyserver.ubuntu.com:80 \
+        --recv-keys EA40B3B3C0B1202D 7CDE3A860A53F9FD
+
+- name: Add X2Go PPA repository (Focal for Jammy compatibility)
+  copy:
+    content: "deb [signed-by=/usr/share/keyrings/x2go.gpg] http://ppa.launchpad.net/x2go/stable/ubuntu focal main\n"
+    dest: /etc/apt/sources.list.d/x2go-stable.list
+
+- name: Update apt cache after adding X2Go repository
+  apt:
+    update_cache: yes
+
+- name: Install X2Go Server
+  apt:
+    name: x2goserver
+    state: present

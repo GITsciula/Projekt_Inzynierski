@@ -1,4 +1,5 @@
 - name: Change Wallpaper
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /backdrop/screen0/monitorVirtual-1/workspace0/last-image
@@ -9,6 +10,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Change wallpaper style (scaling options)
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /backdrop/screen0/monitorVirtual-1/workspace0/image-style
@@ -19,6 +21,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Change background color (for solid color style)
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /backdrop/screen0/monitorVirtual-1/workspace0/color1
@@ -29,6 +32,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Enable desktop icons
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /desktop-icons/file-icons/show-home 
@@ -39,6 +43,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Enable Trash icon
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /desktop-icons/file-icons/show-trash
@@ -49,6 +54,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Enable Removable Devices icon
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /desktop-icons/file-icons/show-removable
@@ -59,6 +65,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Enable Filesystem icon
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /desktop-icons/file-icons/show-filesystem
@@ -69,6 +76,7 @@
     XAUTHORITY: "/home/{{ ansible_user }}/.Xauthority"
 
 - name: Set the size of desktop icons
+  become_user: "{{ ansible_user }}"
   xfconf:
     channel: xfce4-desktop
     property: /desktop-icons/font-size

@@ -1,1 +1,32 @@
-install_office_software: true
+install_office_software: false
+
+office_desktop_config: true
+
+shortcuts_folder: "/home/{{ ansible_user }}/Desktop"
+
+applications:
+  - name: "MS Teams"
+    shortcut: "Teams.desktop"
+    exec: "teams-for-linux"
+    icon: /snap/teams-for-linux/current/meta/gui/icon.png
+    comment: "MS Teams for linux"
+  - name: "Zoom"
+    shortcut: "Zoom.desktop"
+    exec: "zoom-client"
+    icon: /snap/zoom-client/current/usr/share/pixmaps/Zoom.png
+    comment: "Zoom"
+  - name: "Libre Office Writer"
+    shortcut: "Writer.desktop"
+    exec: "lowriter"
+    icon: /usr/share/icons/hicolor/48x48/apps/orca.png
+    comment: "Libre Office Writer"
+  - name: "Libre Office Calc"
+    shortcut: "Calc.desktop"
+    exec: "localc"
+    icon: /usr/share/icons/hicolor/48x48/apps/libreoffice-calc.png
+    comment: "Libre Office Calc"
+  - name: "Libre Office Impress"
+    shortcut: "Impress.desktop"
+    exec: "loimpress"
+    icon: /usr/share/icons/hicolor/48x48/apps/libreoffice-impress.png
+    comment: "Libre Office Impress"

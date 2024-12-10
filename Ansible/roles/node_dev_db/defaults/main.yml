@@ -1,5 +1,11 @@
-install_dev_db_software: true 
-create_database: true 
+install_dev_db_software: false 
+create_database: false 
+config_docker: true
 
 db_user: admin_dev
 db_name: dev_database
+
+container_count: 4
+default_container_name: docker
+default_container_image: ubuntu
+default_container_command: sleep 1

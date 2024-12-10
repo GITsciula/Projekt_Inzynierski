@@ -16,6 +16,10 @@
   ansible.builtin.include_tasks: dev_vmbox_config.yml
   when: install_dev_software
 
+- name: Install x2go server
+  ansible.builtin.include_tasks: dev_x2go.yml
+  when: install_dev_software
+
 - name: Config Desktop
   ansible.builtin.include_tasks: dev_desktop_config.yml
   when: desktop_config

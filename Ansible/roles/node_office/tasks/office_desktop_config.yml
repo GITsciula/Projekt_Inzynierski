@@ -1,0 +1,64 @@
+---
+
+- name: Set GNOME wallpaper
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+        key: /org/gnome/desktop/background/picture-uri
+        value: "'file:///usr/share/backgrounds/jj_dark_by_Hiking93.jpg'"
+        state: present
+
+- name: Set GTK theme to Adwaita
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/desktop/interface/gtk-theme
+    value: "'Adwaita-dark'"
+    state: present
+
+- name: Set window button layout
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/desktop/wm/preferences/button-layout
+    value: "'close,minimize,maximize:'"
+    state: present
+
+- name: Enable dark mode
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/desktop/interface/gtk-theme
+    value: "'Adwaita-dark'"
+    state: present
+
+- name: Set preferred color scheme to dark
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/desktop/interface/colour-scheme
+    value: "'prefer-dark'"
+    state: present
+  
+- name: Disable animations
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/desktop/interface/enable-animations
+    value: false
+    state: present
+
+- name: Set text scaling factor
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/desktop/interface/text-scaling-factor
+    value: 1.0
+    state: present
+
+- name: Enable auto-hide for GNOME top bar
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/shell/extensions/dash-to-dock/autohide
+    value: true
+    state: present
+
+- name: Set dock position to bottom
+  become_user: "{{ ansible_user }}"
+  community.general.dconf:
+    key: /org/gnome/shell/extensions/dash-to-dock/dock-position
+    value: "'BOTTOM'"
+    state: present

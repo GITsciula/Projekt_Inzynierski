@@ -1,0 +1,46 @@
+# - name: Create Communicators directory on Desktop
+#   become_user: "{{ ansible_user }}"
+#   file:
+#     path: "{{ shortcuts_folder_communicators }}"
+#     state: directory
+#     mode: 0755
+
+# - name: Create Libre-Tools directory on Desktop
+#   become_user: "{{ ansible_user }}"
+#   file:
+#     path: "{{ shortcuts_folder_libre }}"
+#     state: directory
+#     mode: 0755
+
+# - name: Create Other directory on Desktop
+#   become_user: "{{ ansible_user }}"
+#   file:
+#     path: "{{ shortcuts_folder_other }}"
+#     state: directory
+#     mode: 0755
+
+- name: Create  shortcuts
+  become_user: "{{ ansible_user }}"
+  copy:
+    dest: "{{ shortcuts_folder }}/{{ item.shortcut }}"
+    content: |
+      [Desktop Entry]
+      Version=1.0
+      Exec={{ item.exec }}
+      Name={{ item.name }}
+      Comment={{ item.comment }}
+      Icon={{ item.icon }}
+      Encoding=UTF-8
+      Terminal=false
+      Type=Application
+      Categories=Utility;Development;
+    mode: 0755 
+  with_items: "{{ applications }}"
+
+- name: Enable "Allow Launching" for shortcuts
+  become_user: "{{ ansible_user }}"
+  command: >
+    gio set "{{ shortcuts_folder }}/{{ item.shortcut }}" metadata::trusted true
+  with_items: "{{ applications }}"
+  loop_control:
+    label: "{{ item.shortcut }}"

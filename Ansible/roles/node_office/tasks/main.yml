@@ -7,3 +7,11 @@
 - name: Install applications on Office Workstation
   ansible.builtin.include_tasks: office_software_config.yml
   when: install_office_software
+
+- name: Desktop configuration on Office Workstation
+  ansible.builtin.include_tasks: office_desktop_config.yml
+  when: office_desktop_config
+
+- name: Desktop shortcuts configuration on Office Workstation
+  ansible.builtin.include_tasks: office_desktop_shortcuts.yml
+  when: office_desktop_config

@@ -19,3 +19,15 @@
 - name: Insert sample data into table
   ansible.builtin.include_tasks: dev_db_data_insert.yml
   when: create_database
+
+- name: Pre docker configuration
+  ansible.builtin.include_tasks: dev_db_pre_docker_config.yml
+  when: config_docker
+
+- name: Docker Installation
+  ansible.builtin.include_tasks: dev_db_docker_installation.yml
+  when: config_docker
+
+- name: Docker containers configuration
+  ansible.builtin.include_tasks: dev_db_docker_container_config.yml
+  when: config_docker
