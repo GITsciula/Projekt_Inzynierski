@@ -1,0 +1,6 @@
+---
+- import_playbook: playbook_dev_group.yml
+- import_playbook: playbook_dev_db.yml
+- import_playbook: playbook_dev.yml
+- import_playbook: playbook_office.yml
+- import_playbook: playbook_service.yml

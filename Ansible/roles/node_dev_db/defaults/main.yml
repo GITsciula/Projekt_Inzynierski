@@ -1,5 +1,5 @@
-install_dev_db_software: false 
-create_database: false 
+install_dev_db_software: true
+create_database: true
 config_docker: true
 zabbix_agent_install: true
 db_user: admin_dev

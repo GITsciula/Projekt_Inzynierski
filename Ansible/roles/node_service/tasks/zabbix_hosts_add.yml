@@ -13,6 +13,7 @@
     ansible_httpapi_use_ssl: false
     ansible_httpapi_validate_certs: false
     ansible_zabbix_url_path: "zabbix" 
+    # ansible_command_timeout: 90
   become: false
   community.zabbix.zabbix_host:
     host_name: "{{ item.host_name }}"
@@ -33,4 +34,8 @@
   loop:
     - { host_name: "Biuro", visible_name: "Biuro", description: "Serwer Biurowy", ip: "192.168.30.100" }
     - { host_name: "Programowanie", visible_name: "Programowanie", description: "Serwer Deweloperski", ip: "192.168.40.101" }
-    - { host_name: "Baza-Danych", visible_name: "", description: "Serwer z Bazą danych", ip: "192.168.40.100" }
+    - { host_name: "Baza-Danych", visible_name: "Baza-Danych", description: "Serwer z Bazą danych", ip: "192.168.40.100" }
+  register: zabbix_result
+  until: zabbix_result.failed == false
+  retries: 5
+  delay: 10

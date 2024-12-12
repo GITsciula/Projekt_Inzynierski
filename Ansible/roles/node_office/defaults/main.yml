@@ -1,4 +1,4 @@
-install_office_software: false
+install_office_software: true
 zabbix_agent_install: true
 office_desktop_config: true
 

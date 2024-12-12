@@ -12,6 +12,10 @@
   ansible.builtin.include_tasks: dev_db_database_config.yml
   when: create_database
 
+- name: Grant privileges to user
+  ansible.builtin.include_tasks: dev_db_user_privileges.yml
+  when: create_database
+
 - name: Create table
   ansible.builtin.include_tasks: dev_db_table_create.yml
   when: create_database
